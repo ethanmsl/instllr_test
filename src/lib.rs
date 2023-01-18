@@ -10,6 +10,11 @@ pub fn echo_cmd(to_say: &str) -> io::Result<Output> {
     Ok(output)
 }
 
+pub fn pwd_cmd() -> io::Result<Output> {
+    let output = Command::new("pwd").output()?;
+    Ok(output)
+}
+
 // #[cfg(test)]
 // mod tests {
 //     use super::*;

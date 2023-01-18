@@ -3,6 +3,8 @@
 use std::io;
 use std::process::{Command, Output};
 
+/// does not echo to terminal that cargo runs it from, but output is printable 
+/// after conversion from utf8
 pub fn echo_cmd(to_say: &str) -> io::Result<Output> {
     let output = Command::new("echo").arg(to_say).output()?;
 
@@ -10,8 +12,15 @@ pub fn echo_cmd(to_say: &str) -> io::Result<Output> {
     Ok(output)
 }
 
+/// appears to succeed in getting current working directory
 pub fn pwd_cmd() -> io::Result<Output> {
     let output = Command::new("pwd").output()?;
+    Ok(output)
+}
+
+/// fails
+pub fn up_cmd() -> io::Result<Output> {
+    let output = Command::new("..").output()?;
     Ok(output)
 }
 

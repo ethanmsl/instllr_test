@@ -12,6 +12,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     //     .arg("-a")
     //     .spawn()
     //     .expect("ls command failed to start");
+
+    // verify presence of zsh
+    let zsh = which::which("zsh").unwrap();
+    println!("zsh: {:?}", zsh);
+
     println!("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
     let home_dir = home_dir().expect("Home Directory ('~') not found");

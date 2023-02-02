@@ -4,7 +4,7 @@
 // use cmd_lib::{run_cmd, run_fun};
 use dirs::home_dir;
 // use instllr_tst::*;
-use std::process::Command;
+use std::{path::PathBuf, process::Command};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Command::new("ls")
@@ -14,10 +14,31 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     //     .expect("ls command failed to start");
 
     // verify presence of zsh
-    let zsh = which::which("zsh").expect("zsh not found");
+    let zsh = which::which_global("zsh").expect("zsh not found");
+    let zsh2 = Command::new("zsh")
+        .arg("--version")
+        .output()
+        .expect("zsh command failed to start");
     let xcode_select = which::which("xcode-select").expect("xcode-select not found");
     let brew = which::which("brew").expect("brew not found");
     println!("zsh: {:?}", zsh);
+    println!("zsh: {:?}", zsh2);
+    // NOTE: (a) consumes the iterator (hence it can't be reused) and (b) the &(...) applies
+    // *after* the mapping
+
+    let zsh_all = which::which_all_global("zsh").expect("zsh not found");
+    // uhhh.... must be a better way
+    // ... hmm ... I guess I just collect if I want to reuse.
+    // No need to clone then.
+    // That said: I'm not sure why `.iter()` doesn't consume the vector.
+    let zsh_all_vec = zsh_all.collect::<PathBuf>();
+    let zsh_all_again = zsh_all_vec.clone();
+    zsh_all_again.iter().map(|elem| println!("zsh_all: {:?}", elem));
+    zsh_all_vec.iter().map(|elem| println!("zsh_all: {:?}", elem));
+    println!("zsh_all: {:?}", zsh_all_vec);
+
+
+
     println!("xcode-select: {:?}", xcode_select);
     println!("brew: {:?}", brew);
 

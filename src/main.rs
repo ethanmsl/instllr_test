@@ -39,6 +39,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("~~~~~~~~~~~~~~~~~~~");
     println!("~~~~~~~~~~~~~~~~~~~");
 
+    if let Ok(output) = xcode.output() {
+        println!(
+            "output, which is apparently 'Ok()', has stdout: {:?}",
+            String::from_utf8_lossy(&output.stdout)
+        );
+    }
+
     ///////// cmd_lib //////////
     // proto_install_script()?;
     // let output = run_cmd!(xcode -select --version);

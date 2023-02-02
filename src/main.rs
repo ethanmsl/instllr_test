@@ -1,9 +1,9 @@
 //! main.rs
 //!
 
-use cmd_lib::{run_cmd, run_fun};
+// use cmd_lib::{run_cmd, run_fun};
 use dirs::home_dir;
-use instllr_tst::*;
+// use instllr_tst::*;
 use std::process::Command;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -14,8 +14,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     //     .expect("ls command failed to start");
 
     // verify presence of zsh
-    let zsh = which::which("zsh").unwrap();
+    let zsh = which::which("zsh").expect("zsh not found");
+    let xcode_select = which::which("xcode-select").expect("xcode-select not found");
+    let brew = which::which("brew").expect("brew not found");
     println!("zsh: {:?}", zsh);
+    println!("xcode-select: {:?}", xcode_select);
+    println!("brew: {:?}", brew);
 
     println!("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
@@ -50,7 +54,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             String::from_utf8_lossy(&output.stdout)
         );
     }
-    
 
     // this should fail (to compile) ... yep :)
     // let fixed = Command::new("exa");

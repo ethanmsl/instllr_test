@@ -45,6 +45,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             String::from_utf8_lossy(&output.stdout)
         );
     }
+    
+
+    // this should fail (to compile) ... yep :)
+    // let fixed = Command::new("exa");
+    // fixed.arg("-l");
 
     ///////// cmd_lib //////////
     // proto_install_script()?;

@@ -26,18 +26,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // NOTE: (a) consumes the iterator (hence it can't be reused) and (b) the &(...) applies
     // *after* the mapping
 
-    let zsh_all = which::which_all_global("zsh").expect("zsh not found");
-    // uhhh.... must be a better way
-    // ... hmm ... I guess I just collect if I want to reuse.
-    // No need to clone then.
-    // That said: I'm not sure why `.iter()` doesn't consume the vector.
-    let zsh_all_vec = zsh_all.collect::<PathBuf>();
-    let zsh_all_again = zsh_all_vec.clone();
-    zsh_all_again.iter().map(|elem| println!("zsh_all: {:?}", elem));
-    zsh_all_vec.iter().map(|elem| println!("zsh_all: {:?}", elem));
-    println!("zsh_all: {:?}", zsh_all_vec);
-
-
+    let zsh_all = which::which_all_global("zsh")
+        .expect("zsh not found")
+        .collect::<PathBuf>();
+    for elem in &zsh_all {
+        println!("zsh_all 111: {:?}", elem);
+    }
+    for elem in &zsh_all {
+        println!("zsh_all 222: {:?}", elem);
+    }
+    zsh_all.iter().for_each(|elem| println!("zsh_all 333: {:?}", elem));
+    println!("zsh_all 444: {:?}", zsh_all);
 
     println!("xcode-select: {:?}", xcode_select);
     println!("brew: {:?}", brew);

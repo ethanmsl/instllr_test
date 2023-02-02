@@ -5,9 +5,9 @@ use std::io;
 use std::process::{Command, Output};
 
 pub fn proto_install_script() -> Result<(), Box<dyn std::error::Error>> {
-
     // Note: `xcode-select --install` will **error** if already installed
-    let output = run_cmd!(xcode-select --install);
+    // NOTE: using {} instead of () with `run_cmd!` causes `rust_fmt` to keep formatting
+    let output = run_cmd! {xcode-select --install};
     println!("result of running 'xcode-select --install': {:?}", output);
 
     let output = run_cmd! {
@@ -17,10 +17,7 @@ pub fn proto_install_script() -> Result<(), Box<dyn std::error::Error>> {
         brew tap homebrew/cask-fonts;
         brew install --cask font-anonymous-pro font-hack font-iosevka font-iosevka-slab font-major-mono-display font-syne-mono font-victor-mono;
     }?;
-    println!(
-        "result of running `baby_install()`: {:?}",
-        output
-    );
+    println!("result of running `baby_install()`: {:?}", output);
     Ok(())
 }
 

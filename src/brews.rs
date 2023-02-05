@@ -9,6 +9,7 @@ use std::process::{Command, Output};
 pub enum BrewBase {
     Install,
     Tap,
+    Info,
 }
 /// create `brew install` command
 pub fn make_brew(base: BrewBase) -> Command {
@@ -16,6 +17,7 @@ pub fn make_brew(base: BrewBase) -> Command {
     match base {
         BrewBase::Install => b.arg("install"),
         BrewBase::Tap => b.arg("tap"),
+        BrewBase::Info => b.arg("info"),
     };
     b
 }
@@ -25,6 +27,15 @@ pub fn install<S: AsRef<OsStr>>(arg: S) -> io::Result<Output> {
 }
 pub fn tap<S: AsRef<OsStr>>(arg: S) -> io::Result<Output> {
     make_brew(BrewBase::Tap).arg(arg).output()
+}
+pub fn is_installed<S: AsRef<OsStr>>(arg: S) -> Result<bool, io::Error> {
+    let json = make_brew(BrewBase::Info)
+        .arg(arg)
+        .arg("--json")
+        .output()?
+        .stdout;
+    println!("json: {:?}", String::from_utf8_lossy(&json));
+    Ok(true)
 }
 // pub fn install_raw<S: AsRef<OsStr>>(arg: S) -> io::Result<ExitStatus> {
 //     make_brew_command().arg(arg).status()

@@ -19,6 +19,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     //     None => println!("status: None"),
     // }
     println!();
+
+    run_fun! {
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    }?;
+
+    println!();
     let to_echo = vec!["sk", "broot", "bat"];
     // let to_do = r#"echo \"oh my gosh did this work?!?!\""#;
     for lword in to_echo {

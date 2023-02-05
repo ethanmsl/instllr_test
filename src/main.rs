@@ -6,7 +6,7 @@ use instllr_tst::RunnerInfo;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let host_info = RunnerInfo::new();
-    println!("host_info: {:?}", host_info);
+    println!("host_info: {}", host_info);
 
     // instllr_tst::saved_junk::old_main()?;
     Ok(())

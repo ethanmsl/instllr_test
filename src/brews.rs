@@ -11,7 +11,7 @@ pub enum BrewBase {
     Tap,
     Info,
 }
-/// create `brew install` command
+/// create `brew <subcommand>` command
 pub fn make_brew(base: BrewBase) -> Command {
     let mut b = Command::new("brew");
     match base {

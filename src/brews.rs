@@ -28,14 +28,15 @@ pub fn install<S: AsRef<OsStr>>(arg: S) -> io::Result<Output> {
 pub fn tap<S: AsRef<OsStr>>(arg: S) -> io::Result<Output> {
     make_brew(BrewBase::Tap).arg(arg).output()
 }
-pub fn is_installed<S: AsRef<OsStr>>(arg: S) -> Result<bool, io::Error> {
+pub fn is_installed<S: AsRef<OsStr>>(arg: S) -> Result<Vec<u8>, io::Error> {
     let json = make_brew(BrewBase::Info)
         .arg(arg)
-        .arg("--json")
+        .arg("--json=v2")
         .output()?
         .stdout;
-    println!("json: {:?}", String::from_utf8_lossy(&json));
-    Ok(true)
+    // println!("json: {:?}", String::from_utf8_lossy(&json));
+    // Ok(true)
+    Ok(json)
 }
 // pub fn install_raw<S: AsRef<OsStr>>(arg: S) -> io::Result<ExitStatus> {
 //     make_brew_command().arg(arg).status()

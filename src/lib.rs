@@ -3,6 +3,7 @@
 // disable clippy lint prevent a lint from running
 #![allow(clippy::uninlined_format_args)]
 pub mod brews;
+pub mod install_loop;
 pub mod saved_junk;
 // use cmd_lib::*;
 // use dirs::home_dir;

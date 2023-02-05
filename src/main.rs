@@ -3,6 +3,7 @@
 #![allow(clippy::uninlined_format_args)]
 
 // use instllr_tst::brews::BrewBase;
+use instllr_tst::install_loop::install_loop;
 use instllr_tst::{is_in_path, RunnerInfo};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -24,6 +25,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("broot: {}", broot);
 
     println!("\n----------------------\n");
+
+    let cmd_list = vec!["sk".to_string(), "broot".to_string()];
+    install_loop(cmd_list);
 
     // instllr_tst::saved_junk::old_main()?;
     Ok(())

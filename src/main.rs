@@ -4,8 +4,9 @@
 
 // use instllr_tst::brews::BrewBase;
 use cmd_lib::*;
+use instllr_tst::check_installation::is_in_path;
 use instllr_tst::install_loop::install_loop;
-use instllr_tst::{is_in_path, RunnerInfo};
+use instllr_tst::RunnerInfo;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let host_info = RunnerInfo::new();
@@ -21,11 +22,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let to_echo = vec!["sk", "broot", "bat"];
     // let to_do = r#"echo \"oh my gosh did this work?!?!\""#;
     for lword in to_echo {
-        run_cmd! {
+        let out = run_fun! {
             echo "trying to install $lword";
             brew install $lword;
         }?;
+        println!("out: {:?}", out);
     }
+
+    println!("which sk is: {}", run_fun!(which sk)?);
+    println!("xcode res is: {}", run_fun!(xcode - select - -install)?);
 
     println!("\n----------------------\n");
 
@@ -39,6 +44,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cmd_list = vec!["sk".to_string(), "broot".to_string()];
     install_loop(cmd_list);
 
-    // instllr_tst::saved_junk::old_main()?;
+    ///////////////////////////////////////////////
+
+    // xcode
+
+    {
+        let xcs = is_in_path("xcode-select").expect("xcode-select not found");
+        println!("xcs: {}", xcs);
+    }
+
+    // brew
+
+    // sub-brews
+
     Ok(())
 }

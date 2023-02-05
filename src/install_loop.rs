@@ -1,7 +1,7 @@
 //! an intallation loop
 
 use crate::brews;
-use crate::is_in_path;
+use crate::check_installation::is_in_path;
 
 pub fn install_loop(inst_list: Vec<String>) {
     println!("List of commands to be installed:");

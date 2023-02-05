@@ -1,9 +1,13 @@
 //! main.rs
 //!
+#![allow(clippy::uninlined_format_args)]
 
-// use instllr_tst;  // <-- don't need if called hyper-locally
+use instllr_tst::RunnerInfo;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    instllr_tst::saved_junk::old_main()?;
+    let host_info = RunnerInfo::new();
+    println!("host_info: {:?}", host_info);
+
+    // instllr_tst::saved_junk::old_main()?;
     Ok(())
 }

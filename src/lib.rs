@@ -3,6 +3,42 @@
 // disable clippy lint prevent a lint from running
 #![allow(clippy::uninlined_format_args)]
 pub mod saved_junk;
+// use cmd_lib::*;
+// use dirs::home_dir;
+use std::env;
+// use std::io;
+// use std::{
+//     path::PathBuf,
+//     process::{Command, Output},
+// };
+
+#[allow(dead_code)]
+#[derive(Debug)]
+/// Some basic info about the host/runner:  
+/// **OS** - Operating System (e.g. linux, windows, macos)  
+/// **ARCH** - Architecture (e.g. x86_64, aarch64)  
+/// **FAMILY** - Family (e.g. unix, windows)  
+///
+/// # Warning:
+/// - `os` does not include version number
+/// - `arch` will be `x86_64` on `aarch64` if run in compatibility/Rosetta mode
+pub struct RunnerInfo {
+    os: String,
+    arch: String,
+    family: String,
+}
+
+#[allow(clippy::new_without_default)]
+impl RunnerInfo {
+    pub fn new() -> RunnerInfo {
+        RunnerInfo {
+            os: env::consts::OS.to_string(),
+            arch: env::consts::ARCH.to_string(),
+            family: env::consts::FAMILY.to_string(),
+        }
+    }
+}
+// determine what the OS is
 
 // #[cfg(test)]
 // mod tests {

@@ -35,8 +35,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("success_state?: {:?}", is_in_path(lword)?);
     }
 
-    println!("which sk is: {}", run_fun!(which sk)?);
-    println!("xcode res is: {}", run_fun!(xcode - select - -install)?);
+    println!("which sk is: {}", run_fun!{which sk}?);
 
     println!("\n----------------------\n");
 

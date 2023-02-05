@@ -49,7 +49,7 @@ impl fmt::Display for RunnerInfo {
         // is very similar to `println!`.
         write!(
             f,
-            "\nos:     -{}\narch:   -{}\nfamily: -{}",
+            "\nOS:     - {}\nArch:   - {}\nFamily: - {}",
             self.os, self.arch, self.family
         )
     }

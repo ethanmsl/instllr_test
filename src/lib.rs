@@ -7,13 +7,32 @@ pub mod saved_junk;
 // use cmd_lib::*;
 // use dirs::home_dir;
 use std::env;
+use std::ffi::OsStr;
 use std::fmt;
+use std::io;
+use which::which;
 // use std::io;
 // use std::{
 //     path::PathBuf,
 //     process::{Command, Output},
 // };
 
+// //////////////////// is_installed //////////////////// //
+
+/// Check if a command is is found in system $PATH
+///
+/// # Warning:
+/// While this is a practical stand-in for (usefully) installed, there may be scenarios,
+/// e.g. due to installer misconfig or PATH manipulation, where a command is installed,
+/// but not on Path.
+pub fn is_in_path<S: AsRef<OsStr>>(arg: S) -> Result<bool, io::Error> {
+    match which(arg) {
+        Ok(_) => Ok(true),
+        Err(_) => Ok(false),
+    }
+}
+
+// //////////////////// RunnerInfo  //////////////////// //
 #[allow(dead_code)]
 #[derive(Debug)]
 /// Some basic info about the host/runner:  

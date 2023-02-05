@@ -22,11 +22,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let to_echo = vec!["sk", "broot", "bat"];
     // let to_do = r#"echo \"oh my gosh did this work?!?!\""#;
     for lword in to_echo {
-        let out = run_fun! {
+        run_fun! {
             echo "trying to install $lword";
             brew install $lword;
         }?;
-        println!("out: {:?}", out);
+        println!("success_state?: {:?}", is_in_path(lword)?);
     }
 
     println!("which sk is: {}", run_fun!(which sk)?);
@@ -49,7 +49,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // xcode
 
     {
-        let xcs = is_in_path("xcode-select").expect("xcode-select not found");
+        let xcs = is_in_path("xcode-select")?;
         println!("xcs: {}", xcs);
     }
 

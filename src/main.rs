@@ -11,8 +11,28 @@
 use instllr_tst::RunnerInfo;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // get Runner info
+    // note: `arch` is not a reliable flag, due to compatibility mode
     let host_info = RunnerInfo::new();
-    println!("host_info: {}", host_info);
+    dbg!(host_info);
+
+    // check `xcode-select`
+    // prompt user to manually install if not found
+    match is_in_path("xcode-select")? {
+        true => println!("xcode-select is installed"),
+        false => println!("xcode-select is not installed"),
+    }
+
+    // check `brew`
+    // prompt user to manually install if not found
+    match is_in_path("brew")? {
+        true => println!("brew is installed"),
+        false => println!("brew is not installed"),
+    }
+
+    // enage brew install loop
+
+    // install_loop::install(vec!["".to_string()]);
 
     Ok(())
 }

@@ -11,13 +11,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // note: `arch` is not a reliable flag, due to compatibility mode
     let host_info = RunnerInfo::new();
     dbg!(host_info);
+    println!();
 
     // check `xcode-select`
     // prompt user to manually install if not found
     match is_in_path("xcode-select")? {
-        true => println!("xcode-select is installed"),
+        true => println!("xcode-select is installed✓ "),
         false => {
-            println!("xcode-select is not installed");
+            println!("xcode-select is not installed✗ ");
             println!("please install xcode-select brew and then re-run this script");
             println!("To install xcode-select (apple dev tools) run:");
             println!("\n--->       xcode-select --install      <---\n");
@@ -30,9 +31,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // check `brew`
     // prompt user to manually install if not found
     match is_in_path("brew")? {
-        true => println!("brew is installed"),
+        true => println!("brew is installed✓ "),
         false => {
-            println!("brew is not installed");
+            println!("brew is not installed✗ ");
             println!("please install brew and then re-run this script");
             println!("To install brew (apple package manager) run:");
             println!("\n--->       /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"      <---\n");

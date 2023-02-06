@@ -4,6 +4,7 @@
 
 // use cmd_lib::*;
 use instllr_tst::{brews::BrewList, check_installation::is_in_path, install_loop, RunnerInfo};
+use std::process::exit;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // get Runner info
@@ -15,14 +16,29 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // prompt user to manually install if not found
     match is_in_path("xcode-select")? {
         true => println!("xcode-select is installed"),
-        false => println!("xcode-select is not installed"),
+        false => {
+            println!("xcode-select is not installed");
+            println!("please install xcode-select brew and then re-run this script");
+            println!("To install xcode-select (apple dev tools) run:");
+            println!("\n--->       xcode-select --install      <---\n");
+            println!("To install brew (apple package manager) run:");
+            println!("\n--->       /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"      <---\n");
+            println!("(Due to required permissions we need you to install those manually!)");
+            exit(1);
+        }
     }
-
     // check `brew`
     // prompt user to manually install if not found
     match is_in_path("brew")? {
         true => println!("brew is installed"),
-        false => println!("brew is not installed"),
+        false => {
+            println!("brew is not installed");
+            println!("please install brew and then re-run this script");
+            println!("To install brew (apple package manager) run:");
+            println!("\n--->       /bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\"      <---\n");
+            println!("(Due to required permissions we need you to install that manually!)");
+            exit(2);
+        }
     }
 
     // enage brew install loop

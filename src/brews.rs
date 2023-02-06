@@ -58,13 +58,6 @@ pub fn brew_action<S: AsRef<OsStr>>(base: BrewBase, arg: S) -> io::Result<Output
     make_brew(base).arg(arg).output()
 }
 
-pub fn install<S: AsRef<OsStr>>(arg: S) -> io::Result<Output> {
-    make_brew(BrewBase::Install).arg(arg).output()
-}
-pub fn tap<S: AsRef<OsStr>>(arg: S) -> io::Result<Output> {
-    make_brew(BrewBase::Tap).arg(arg).output()
-}
-
 // tap wez/wezterm;
 // install --cask wez/wezterm/wezterm;
 // install starship zsh-autosuggestions zsh-syntax-highlighting bat choose-rust git-delta exa fd fzf navi ripgrep sd tealdeer viu zoxide eth-p/software/bat-extras-batman;

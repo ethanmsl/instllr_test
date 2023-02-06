@@ -3,9 +3,10 @@
 use crate::brews::{brew_action, BrewBase, BrewList};
 use crate::check_installation::{is_brew_installed, is_in_path};
 
-pub fn install(inp_list: &BrewList) {
+/// performs brew installs; looping up to `loop_tolerance` times
+pub fn install(inp_list: &BrewList, loop_tolerance: u32) {
     announce_intent(inp_list);
-    install_loop(inp_list);
+    install_loop(inp_list, loop_tolerance);
     println!("\n\nSuccess!");
 }
 
@@ -35,16 +36,19 @@ fn announce_intent(inp_list: &BrewList) {
 }
 
 /// while loop that circles through until things are installed
-fn install_loop(inp_list: &BrewList) {
+/// `loop_tolerance`: max number of loops to allow (inclusive)
+fn install_loop(inp_list: &BrewList, loop_tolerance: u32) {
     let mut inp_pair = (inp_list.get_base(), inp_list.get_args().to_vec());
+    let mut count = 0;
 
-    while !inp_pair.1.is_empty() {
+    while !inp_pair.1.is_empty() && count < loop_tolerance {
         println!("Checking installation status...");
         retain_uninstalled(&mut inp_pair);
         if inp_pair.1.is_empty() {
             break;
         }
         attempt_installation(&inp_pair);
+        count += 1;
     }
 }
 

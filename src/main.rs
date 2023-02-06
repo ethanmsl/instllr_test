@@ -46,7 +46,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let to_install = [TAPS, CASKS, INSTALLS];
     to_install.iter().for_each(|list| {
         println!();
-        install_loop::install(list);
+        install_loop::install(list, 4);
     });
 
     // install_loop::install(vec!["".to_string()]);

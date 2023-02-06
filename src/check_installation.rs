@@ -5,6 +5,7 @@ use crate::brews::BrewBase;
 use serde_json;
 use std::ffi::OsStr;
 use std::io;
+use std::process::Command;
 use which::which;
 
 /// Check if a command is is found in system $PATH

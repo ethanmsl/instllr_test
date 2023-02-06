@@ -22,11 +22,19 @@ pub fn is_in_path<S: AsRef<OsStr>>(arg: S) -> Result<bool, io::Error> {
 }
 
 /// Calls list of all brew taps on machine then checks given argument against that list
-pub fn is_brew_tapped(arg_to_match: &str) -> Result<bool, io::Error> {
-    let out = Command::new("brew")
-        .arg("tap")
-        .output()
-        .expect("failed to execute process");
+pub fn is_brew_installed(base: BrewBase, arg_to_match: &str) -> Result<bool, io::Error> {
+    let out = match base {
+        BrewBase::Install | BrewBase::Cask => Command::new("brew")
+            .arg("list")
+            .output()
+            .expect("failed to execute `brew list` capture"),
+        BrewBase::Tap => Command::new("brew")
+            .arg("tap")
+            .output()
+            .expect("failed to execute `brew tap` capture"),
+        BrewBase::Info => panic!("BrewBase::Info is not a valid input for this function"),
+    };
+
     let has_arg = String::from_utf8_lossy(&out.stdout)
         .split_whitespace()
         .any(|s| s == arg_to_match);
@@ -53,7 +61,7 @@ fn info_json<S: AsRef<OsStr>>(arg: S) -> Result<Vec<u8>, io::Error> {
 /// -- shell -- not desgined for use --
 /// -- keeping here as a sucessfuly example of using serde_json --
 /// -- and back-up should being on PATH be insufficient --
-fn is_brew_installed<S: AsRef<OsStr>>(arg: S) -> Result<bool, io::Error> {
+fn is_brew_installed_serde<S: AsRef<OsStr>>(arg: S) -> Result<bool, io::Error> {
     let stdo_json = info_json(arg)?;
     let prop_json: serde_json::Value = serde_json::from_slice(&stdo_json)?;
 

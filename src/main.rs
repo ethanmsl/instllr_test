@@ -3,12 +3,7 @@
 #![allow(clippy::uninlined_format_args)]
 
 // use cmd_lib::*;
-// use instllr_tst::check_installation::is_in_path;
-// use instllr_tst::install_loop::install_loop;
-// use std::io;
-// use std::io::Write;
-// use std::process::{Command, Stdio};
-use instllr_tst::RunnerInfo;
+use instllr_tst::{brews::BrewList, check_installation::is_in_path, install_loop, RunnerInfo};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // get Runner info
@@ -31,6 +26,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     // enage brew install loop
+    let to_install = [TAPS, CASKS, INSTALLS];
+    to_install.iter().for_each(|list| {
+        println!();
+        install_loop::install(list);
+    });
 
     // install_loop::install(vec!["".to_string()]);
 
@@ -39,7 +39,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 const TAPS: BrewList = BrewList::Taps(&["wez/wezterm", "homebrew/cask-fonts"]);
 const CASKS: BrewList = BrewList::Casks(&[
-    "wes/wezterm/wezterm",
+    "wezterm", // "wez/wezterm/wezterm"
+    // ^ both seem to work, shorter is what brew reports as installed
     "font-anonymous-pro",
     "font-hack",
     "font-iosevka",
@@ -64,5 +65,6 @@ const INSTALLS: BrewList = BrewList::Installs(&[
     "tealdeer",
     "viu",
     "zoxide",
-    "eth-p/software/bat-extras-batman",
+    "bat-extras-batman", // "eth-p/software/bat-extras-batman",
+                         // ^ both seem to work, shorter is what brew reports as installed
 ]);

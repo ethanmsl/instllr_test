@@ -67,27 +67,33 @@ fn retain_uninstalled(inp_pair: &mut (BrewBase, Vec<&str>)) {
     match base {
         BrewBase::Install | BrewBase::Cask => {
             vec.retain(|cmd| {
-                if is_in_path(cmd).expect("is_in_path failed")
-                    || is_brew_installed(base, cmd).expect("is_brew_tapped failed")
-                {
-                    print!("{}✓ , ", cmd);
-                    false
-                } else {
-                    print!("{}✗ , ", cmd);
-                    true
+                let in_path = is_in_path(cmd).expect("is_in_path failed");
+                let brew_instlld = is_brew_installed(base, cmd).expect("is_brew_tapped failed");
+                match (in_path, brew_instlld) {
+                    (false, false) => {
+                        print!("{}✗ , ", cmd);
+                        true
+                    }
+                    (_, _) => {
+                        print!("{}✓ , ", cmd);
+                        false
+                    }
                 }
             });
         }
         BrewBase::Tap => {
-            vec.retain(|cmd| {
-                if is_brew_installed(base, cmd).expect("is_brew_tapped failed") {
-                    print!("{}✓ , ", cmd);
-                    false
-                } else {
-                    print!("{}✗ , ", cmd);
-                    true
-                }
-            });
+            vec.retain(
+                |cmd| match is_brew_installed(base, cmd).expect("is_brew_tapped failed") {
+                    false => {
+                        print!("{}✗ , ", cmd);
+                        true
+                    }
+                    true => {
+                        print!("{}✓ , ", cmd);
+                        false
+                    }
+                },
+            );
         }
         BrewBase::Info => panic!("BrewBase::Info is not a valid input for this function"),
     }

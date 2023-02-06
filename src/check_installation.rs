@@ -20,6 +20,19 @@ pub fn is_in_path<S: AsRef<OsStr>>(arg: S) -> Result<bool, io::Error> {
     }
 }
 
+/// Calls list of all brew taps on machine then checks given argument against that list
+pub fn is_brew_tapped(arg_to_match: &str) -> Result<bool, io::Error> {
+    let out = Command::new("brew")
+        .arg("tap")
+        .output()
+        .expect("failed to execute process");
+    let has_arg = String::from_utf8_lossy(&out.stdout)
+        .split_whitespace()
+        .any(|s| s == arg_to_match);
+
+    Ok(has_arg)
+}
+
 // //////////////////// info_json //////////////////// //
 
 #[allow(dead_code)]

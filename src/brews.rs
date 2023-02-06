@@ -53,6 +53,10 @@ pub fn make_brew(base: BrewBase) -> Command {
     };
     b
 }
+/// takes a brew subcommand enum and string input
+pub fn brew_action<S: AsRef<OsStr>>(base: BrewBase, arg: S) -> io::Result<Output> {
+    make_brew(base).arg(arg).output()
+}
 
 pub fn install<S: AsRef<OsStr>>(arg: S) -> io::Result<Output> {
     make_brew(BrewBase::Install).arg(arg).output()

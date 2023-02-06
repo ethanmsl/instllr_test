@@ -1,13 +1,100 @@
 #![allow(dead_code)]
+use crate::check_installation::is_in_path;
+use crate::install_loop::install_loop;
 use cmd_lib::*;
 use dirs::home_dir;
 use std::io;
-use std::{
-    path::PathBuf,
-    process::{Command, Output},
-};
+use std::io::Write;
+use std::process::{Command, Stdio};
+use std::{path::PathBuf, process::Output};
+
+fn set_inp(inp: String) -> io::Result<()> {
+    match Command::new("xargs")
+        .stdin(Stdio::piped())
+        .arg("rg")
+        .spawn()
+    {
+        Ok(mut child) => {
+            child
+                .stdin
+                .as_ref()
+                .unwrap()
+                .write_all(inp.as_bytes())
+                .unwrap();
+
+            child.wait().unwrap();
+            Ok(())
+        }
+        Err(_e) => Err(io::Error::new(
+            io::ErrorKind::Other,
+            "failed to execute process",
+        )),
+    }
+}
 // use cmd_lib::{run_cmd, run_fun};
 // use instllr_tst::*;
+fn les_old_main() -> Result<(), Box<dyn std::error::Error>> {
+    // brews::make_brew(BrewBase::Install).arg("sk").status()?;
+    //
+    // match brews::install("sk")?.status.code() {
+    //     Some(status) => println!("status: {:?}", status),
+    //     None => println!("status: None"),
+    // }
+    set_inp("use".to_string())?;
+
+    // let mut child = Command::new("rev")
+    //     .stdin(Stdio::piped())
+    //     .stdout(Stdio::piped())
+    //     .spawn()
+    //     .expect("Failed to spawn child process");
+    //
+    // let mut stdin = child.stdin.take().expect("Failed to open stdin");
+    // std::thread::spawn(move || {
+    //     stdin
+    //         .write_all("Hello, world!".as_bytes())
+    //         .expect("Failed to write to stdin");
+    // });
+
+    //////////////////////////
+    println!();
+
+    let to_echo = vec!["sk", "broot", "bat"];
+    // let to_do = r#"echo \"oh my gosh did this work?!?!\""#;
+    for lword in to_echo {
+        run_fun! {
+            echo "trying to install $lword";
+            brew install $lword;
+        }?;
+        println!("success_state?: {:?}", is_in_path(lword)?);
+    }
+
+    println!("which sk is: {}", run_fun! {which sk}?);
+    // println!("xcode res is: {}", run_fun!{xcode-select --install}?);
+
+    println!("\n----------------------\n");
+
+    let sk = is_in_path("sk")?;
+    let broot = is_in_path("broot")?;
+    println!("sk: {}", sk);
+    println!("broot: {}", broot);
+
+    println!("\n----------------------\n");
+
+    let cmd_list = vec!["sk".to_string(), "broot".to_string()];
+    install_loop(cmd_list);
+
+    ///////////////////////////////////////////////
+
+    // xcode
+
+    let xcs = is_in_path("xcode-select")?;
+    println!("xcs: {}", xcs);
+
+    // brew
+
+    // sub-brews
+    Ok(())
+}
 
 pub fn proto_install_script() -> Result<(), Box<dyn std::error::Error>> {
     // Note: `xcode-select --install` will **error** if already installed

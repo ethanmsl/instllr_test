@@ -16,3 +16,33 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     Ok(())
 }
+
+const TAPS: BrewList = BrewList::Taps(&["wez/wezterm", "homebrew/cask-fonts"]);
+const CASKS: BrewList = BrewList::Casks(&[
+    "wes/wezterm/wezterm",
+    "font-anonymous-pro",
+    "font-hack",
+    "font-iosevka",
+    "font-iosevka-slab",
+    "font-major-mono-display",
+    "font-syne-mono",
+    "font-victor-mono",
+]);
+const INSTALLS: BrewList = BrewList::Installs(&[
+    "starship",
+    "zsh-autosuggestions",
+    "zsh-syntax-highlighting",
+    "bat",
+    "choose-rust",
+    "git-delta",
+    "exa",
+    "fd",
+    "fzf",
+    "navi",
+    "ripgrep",
+    "sd",
+    "tealdeer",
+    "viu",
+    "zoxide",
+    "eth-p/software/bat-extras-batman",
+]);

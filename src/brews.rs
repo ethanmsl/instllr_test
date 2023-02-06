@@ -47,7 +47,7 @@ pub fn make_brew(base: BrewBase) -> Command {
     let mut b = Command::new("brew");
     match base {
         BrewBase::Install => b.arg("install"),
-        BrewBase::Cask => b.args(["--cask", "install"]),
+        BrewBase::Cask => b.args(["install", "--cask"]),
         BrewBase::Tap => b.arg("tap"),
         BrewBase::Info => b.arg("info"),
     };

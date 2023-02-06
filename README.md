@@ -9,6 +9,15 @@ cargo build --release --target x86_64-apple-darwin
 ```
 
 
+# run binary (despite mac security settings)
+Command to run in same dir as file.
+(makes file executable and removes "quarantine" extended-attribute)
+```shell
+ISHALLBERUN=instllr_tst
+xattr -d com.apple.quarantine $ISHALLBERUN
+chmod +x $ISHALLBERUN
+./$ISHALLBERUN
+```
 
 # M1 Mac Paths:
 ```zsh

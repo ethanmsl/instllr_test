@@ -5,6 +5,7 @@
 pub mod brews;
 pub mod check_installation;
 pub mod install_loop;
+pub mod mover;
 pub mod saved_junk;
 // use cmd_lib::*;
 // use dirs::home_dir;

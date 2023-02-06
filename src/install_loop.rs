@@ -7,7 +7,6 @@ use crate::check_installation::{is_brew_installed, is_in_path};
 pub fn install(inp_list: &BrewList, loop_tolerance: u32) {
     announce_intent(inp_list);
     install_loop(inp_list, loop_tolerance);
-    println!("\n\nSuccess!");
 }
 
 /// mention items to be actioned (in brew)
@@ -49,6 +48,11 @@ fn install_loop(inp_list: &BrewList, loop_tolerance: u32) {
         }
         attempt_installation(&inp_pair);
         count += 1;
+    }
+
+    match inp_pair.1.is_empty() {
+        true => println!("\n\nSuccess!"),
+        false => println!("\n\nFailed to install all items"),
     }
 }
 

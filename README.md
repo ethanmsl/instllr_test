@@ -1,12 +1,13 @@
 # instllr_test
 Testing use of os commands and running installations via rust 
 
-# Build *de facto* universal for Mac:
-(builds for `intel`, but works on `m1` via Rosetta)
+# ~~Build *de facto* universal for Mac:~~
+~~(builds for `intel`, but works on `m1` via Rosetta)~~
 ```shell
 rustup target install x86_64-apple-darwin
 cargo build --release --target x86_64-apple-darwin
 ```
+^ runs, but the virtualization seems to affect and break brew (which is, itself, version sensitive)
 
 
 # run binary (despite mac security settings)
